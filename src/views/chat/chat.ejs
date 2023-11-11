@@ -1,0 +1,65 @@
+<%- include('../partials/header') %>
+<div>
+    <!-- header -->
+    <div class="bg-primary p-2 d-flex">
+        <h5 class="text-white">채팅방</h5>
+    </div>
+
+    <div class="chat-body d-flex d-none">
+        <!-- Sidebar -->
+        <div class="col-4">
+            <div class="sidebar border-end">
+                <div class="title p-2 bg-success bg-opacity-50">
+                    나의 이름: <span id="user-title"></span>
+                </div>
+                <div class="user-title p-2 border-bottom">
+                    <span id="users-tagline"></span>
+                </div>
+                <div class="users">
+                </div>
+            </div>
+        </div>
+
+        <!-- Main -->
+        <div class="col-8">
+            <div class="chat-container">
+                <!-- Active user title -->
+                <div class="title p-2 bg-success bg-opacity-50">
+                    상대방 이름: <span id="active-user">&nbsp;</span>
+                </div>
+
+                <!-- Message area -->
+                <div class="messages p-2"></div>
+
+                <!-- Message form -->
+                <div class="msg-form d-flex justify-content-center border-top align-items-center p-2 bg-success bg-opacity-50 d-none">
+                    <form method="post" action="http://localhost:4000/" class="msgForm w-100">
+                            <div class="d-flex">
+                                <input type="text" class="form-control" name="message" id="message" placeholder="메시지 보내기..." required>
+                                <button type="submit" style="min-width: 70px" class="ms-2 btn btn-success">전송</button>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const username = "<%= currentUser.username %>";
+      if (username) {
+        createSession(username.toLowerCase());
+        
+      }
+    });
+</script>
+<script src="/chat.js"></script>
+
+<%- include('../partials/post-modal') %>
+<%- include('../partials/footer') %>
