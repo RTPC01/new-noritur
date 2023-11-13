@@ -28,9 +28,9 @@
             <%= post.description %>
         </p>
 
-        <% if (post.image) { %>
-            <img class="w-100" src="/assets/images/<%= post.image %>" />
-        <% } %>
+        <% if (post.image.forEach((img, i) =>  { %>
+            <img class="w-100" src="<%= img.url%>" />
+        <% })) %>
 
            
 

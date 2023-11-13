@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== "production") {
+    require('dotenv').config();
+}
+
 const cookieSession = require('cookie-session');
 const express = require('express');
 const { default: mongoose } = require('mongoose');

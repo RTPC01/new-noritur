@@ -5,21 +5,13 @@ const Comment = require('../models/comments.model');
 const router = express.Router();
 const Post = require('../models/posts.model');
 const path = require('path');
+const { storage } = require("../cloudinary/index");
+const upload = multer({ storage }).array('image');
 
-const storageEngine = multer.diskStorage({
-    destination: (req, file, callback) => {
-        callback(null, path.join(__dirname, '../public/assets/images'));
-    },
-    filename: (req, file, callback) => {
-        callback(null, file.originalname);
-    }
-})
 
-const upload = multer({ storage: storageEngine }).single('image');
-
-router.post('/', checkAuthenticated, upload, (req, res, next) => {
+router.post('/', checkAuthenticated, upload, async (req, res, next) => {
     let desc = req.body.desc;
-    let image = req.file ? req.file.filename : "";
+    let image = req.files.map(f => ({ url: f.path, filename: f.filename }));
 
     Post.create({
         image: image,
@@ -65,7 +57,7 @@ router.get('/:id/edit', checkPostOwnerShip, (req, res) => {
     })
 })
 
-router.put('/:id', checkPostOwnerShip, (req, res) => {
+router.put('/:id', checkPostOwnerShip, async (req, res) => {
     Post.findByIdAndUpdate(req.params.id, req.body, (err, _) => {
         if (err) {
             req.flash('error', '게시물을 수정하는데 오류가 발생했습니다.');
@@ -77,7 +69,7 @@ router.put('/:id', checkPostOwnerShip, (req, res) => {
     })
 })
 
-router.delete('/:id', checkPostOwnerShip, (req, res) => {
+router.delete('/:id', checkPostOwnerShip, async (req, res) => {
     Post.findByIdAndDelete(req.params.id, (err, _) => {
         if (err) {
             req.flash('error', '게시물을 지우는데 실패했습니다.');
