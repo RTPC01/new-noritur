@@ -13,6 +13,7 @@ router.post('/', checkAuthenticated, upload, async (req, res, next) => {
     let desc = req.body.desc;
     let price = req.body.price;
     let image = req.files.map(f => ({ url: f.path, filename: f.filename }));
+    let status = req.body.status;
 
     Resell.create({
         image: image,
@@ -22,7 +23,8 @@ router.post('/', checkAuthenticated, upload, async (req, res, next) => {
             username: req.user.username,
             hometown: req.user.hometown
         },
-        price: price
+        price: price,
+        status: status
     }, (err, _) => {
         if (err) {
             req.flash('error', '포스트 생성 실패');
@@ -60,7 +62,13 @@ router.get('/:id/edit', checkResellOwnerShip, (req, res) => {
 })
 
 router.put('/:id', checkResellOwnerShip, async (req, res) => {
-    Resell.findByIdAndUpdate(req.params.id, req.body, (err, _) => {
+    // 체크박스의 값이 'on'인 경우 true, 그렇지 않으면 false
+    const updatedData = {
+        ...req.body,
+        status: req.body.status === 'on'
+    };
+
+    Resell.findByIdAndUpdate(req.params.id, updatedData, (err, _) => {
         if (err) {
             req.flash('error', '게시물을 수정하는데 오류가 발생했습니다.');
             res.redirect('/resells');

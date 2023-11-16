@@ -7,6 +7,10 @@
         <div class="card-body">
             <form action="/profile/<%= user._id %>?_method=PUT" method="POST">
                 <div class="form-group">
+                    <label for="username">닉네임</label>
+                    <input type="text" name="username" id="username" class="form-control" value="<%= user.username %>">
+                </div>
+                <div class="form-group">
                     <label for="fname">성</label>
                     <input type="text" name="firstName" id="fname" class="form-control" value="<%= user.firstName %>">
                 </div>

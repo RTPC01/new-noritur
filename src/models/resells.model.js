@@ -27,7 +27,11 @@ const resellSchema = new mongoose.Schema({
         hometown: String
     },
     image: [ImageSchema],
-    price: Number
+    price: Number,
+    status: {
+        type:Boolean,
+        default: false
+    }
 }, {
     timestamps: true
 })

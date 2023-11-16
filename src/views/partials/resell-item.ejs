@@ -25,9 +25,13 @@
         </div>
 
         <p class="card-text mt-2">
-            <%= resell.description %>
+            <span class="<%= resell.status ? 'text-gray text-strikethrough' : '' %>">
+                <%= resell.description %>
+            </span>
             <br>
-            <span class="blue-text">가격: <%= resell.price %> ₩</span>
+            <span class="blue-text <%= resell.status ? 'text-strikethrough' : '' %>">
+                가격: <%= resell.price %> ₩
+            </span>
         </p>
         
         <div id="resellCarousel" class="carousel slide" data-ride="carousel">
