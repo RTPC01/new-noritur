@@ -49,6 +49,22 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: '데이터 없음'
     },
+    postcode: {
+        type: String,
+        default: '데이터 없음'
+    },
+    roadAddress: {
+        type: String,
+        default: '데이터 없음'
+    },
+    jibunAddress: {
+        type: String,
+        default: '데이터 없음'
+    },
+    detailAddress: {
+        type: String,
+        default: '데이터 없음'
+    },
     workspace: {
         type: String,
         default: '데이터 없음'

@@ -3,7 +3,7 @@
 <div class="container col-lg-8">
     <div class="text-center">
         <h3><%= user.firstName %> <%= user.lastName %></h3>
-        <p class="text-dark"> <%= user.bio %></p>
+        <br>
     </div>
 
     <div class="row">
@@ -22,16 +22,25 @@
                         <span class="ms-2"><%= user.workspace %></span>
                     </li>
                     <li class="list-group-item">
-                        <i class="fa fa-book fa-lg"></i>
+                        <i class="fa fa-phone fa-lg"></i>
+                        <span class="ms-2"><%= user.contact %></span>
+                    </li>
+                    <li class="list-group-item">
+                        <i class="fa fa-school fa-lg"></i>
                         <span class="ms-2"><%= user.education %></span>
                     </li>
                     <li class="list-group-item">
-                        <i class="fa fa-phone fa-lg"></i>
-                        <span class="ms-2"><%= user.contact %></span>
-                    </li>
-                    <li class="list-group-item">
-                        <i class="fa fa-phone fa-lg"></i>
-                        <span class="ms-2"><%= user.contact %></span>
+                        <% if (user.bio === 'female') { %>
+                            <!-- 남자 아이콘 표시 -->
+                            <i class="fa fa-mars" aria-hidden="true"></i>
+                        <% } else if (user.bio === 'male') { %>
+                            <!-- 여자 아이콘 표시 -->
+                            <i class="fa fa-venus" aria-hidden="true"></i>
+                            <!-- 성 중립적 아이콘 -->
+                        <% } else { %>
+                            <i class="fa fa-question-circle" aria-hidden="true"></i>
+                        <% } %>
+                        <span class="ms-2"><%= user.bio %></span>
                     </li>
                 </ul>
                 <% if (currentUser._id.toString() === user._id.toString()) { %>

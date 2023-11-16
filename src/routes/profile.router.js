@@ -37,18 +37,27 @@ router.get('/edit', checkIsMe, (req, res) => {
     })
 })
 
-
 router.put('/', checkIsMe, (req, res) => {
-    User.findByIdAndUpdate(req.params.id, req.body,
-        (err, user) => {
-            if (err || !user) {
-                req.flash('error', '유저 데이터를 업데이트하는데 에러가 났습니다.');
-                res.redirect('back');
-            } else {
-                req.flash('success', '유저 데이터를 업데이트하는데 성공했습니다.');
-                res.redirect('/profile/' + req.params.id);
-            }
-        })
+    // roadAddress에서 hometown 추출
+    let hometown;
+    if (req.body.roadAddress) {
+        hometown = req.body.roadAddress.split(' ')[0];
+    } else {
+        hometown = "데이터 없음";
+    }
+
+    // req.body에 hometown 추가
+    req.body.hometown = hometown;
+
+    User.findByIdAndUpdate(req.params.id, req.body, (err, user) => {
+        if (err || !user) {
+            req.flash('error', '유저 데이터를 업데이트하는데 에러가 났습니다.');
+            res.redirect('back');
+        } else {
+            req.flash('success', '유저 데이터를 업데이트하는데 성공했습니다.');
+            res.redirect('/profile/' + req.params.id);
+        }
+    })
 })
 
 
