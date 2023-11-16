@@ -66,3 +66,7 @@
 .table tr td {
     cursor: pointer;
 }
+
+.blue-text {
+    color: blue;
+}

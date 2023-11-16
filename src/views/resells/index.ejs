@@ -1,0 +1,21 @@
+<%- include('../partials/header') %>
+<div class="container">
+
+    <div style="max-width: 600px; margin: 1rem auto;">
+        <%- include('../partials/create-resell') %>
+    </div>
+    <% resells.forEach((resell) => { %>
+        <!-- 같은 지역의 포스트인지 확인 -->
+        <% if (resell.author.hometown === currentUser.hometown) { %>
+            
+        <div style="max-width: 600px; margin: 1rem auto;">
+            <%- include('../partials/resell-item', { resell: resell }) %>        
+        </div>
+    
+        <% } %>
+    <% }) %>
+</div>
+
+<%- include('../partials/resell-modal') %>
+
+<%- include('../partials/footer') %>

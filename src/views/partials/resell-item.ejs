@@ -1,21 +1,21 @@
 <div class="card mb-2">
     <div class="card-body text-start">
         <div class="d-flex align-items-center">
-            <a href="/profile/<%= post.author.id %>" class="btn btn-success">
-                <h5><%= post.author.username %></h5>
+            <a href="/profile/<%= resell.author.id %>" class="btn btn-success">
+                <h5><%= resell.author.username %></h5>
             </a>
             <small class="text-muted ms-auto">
-                <%= post.createdAt.toDateString() %>
+                <%= resell.createdAt.toDateString() %>
             </small>
-            <% if (post.author.id.equals(currentUser._id)) { %>
+            <% if (resell.author.id.equals(currentUser._id)) { %>
             <div class="dropdown">
                 <button class="no-outline" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="/assets/images/ellipsis.png" height="20px">
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item text-center" href="/posts/<%= post._id %>/edit">Edit</a></li>
+                    <li><a class="dropdown-item text-center" href="/resells/<%= resell._id %>/edit">Edit</a></li>
                     <li>
-                        <form class="dropdown-item text-center" action="/posts/<%= post._id %>?_method=DELETE" method="POST">
+                        <form class="dropdown-item text-center" action="/resells/<%= resell._id %>?_method=DELETE" method="POST">
                             <button type="submit" class="no-outline">Delete</button>
                         </form>
                     </li>
@@ -25,59 +25,44 @@
         </div>
 
         <p class="card-text mt-2">
-            <%= post.description %>
+            <%= resell.description %>
+            <br>
+            <span class="blue-text">가격: <%= resell.price %> ₩</span>
         </p>
         
-        <div id="postCarousel" class="carousel slide" data-ride="carousel">
+        <div id="resellCarousel" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
-                <% post.image.forEach((img, i) =>  { %>
+                <% resell.image.forEach((img, i) =>  { %>
                 <div class="carousel-item <%= i === 0 ? 'active' : ''%>">
                     <img src="<%= img.url%>" class="d-block w-100" alt="">
                 </div>
                 <% }) %>
             </div>
-            <% if(post.image.length > 1) {%>
-                <a class="carousel-control-prev" href="#postCarousel" role="button" data-slide="prev">
+            <% if(resell.image.length > 1) {%>
+                <a class="carousel-control-prev" href="#resellCarousel" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
                 </a>
-                <a class="carousel-control-next" href="#postCarousel" role="button" data-slide="next">
+                <a class="carousel-control-next" href="#resellCarousel" role="button" data-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="sr-only">Next</span>
                 </a>
                 <% } %>
             </div>           
-
+        
         <hr class="mt-1" >
         <div class="d-flex justify-content-between">
-            <div class="row">
-                <form action="/posts/<%= post._id %>/like?_method=PUT" method="POST">
-                    <!-- 이미 좋아요를 눌렀는지  -->
-                    <% if (post.likes.find(like => like === currentUser._id.toString())) { %>
-                        <button type="submit" class="no-outline">
-                            <img src="/assets/images/like-1.png" height="20px" >
-                            <span class="ms-1"> <%= post.likes.length %></span>
-                        </button>
-                    <% } else { %>
-                        <button type="submit" class="no-outline">
-                            <img src="/assets/images/like.png" height="20px" >
-                            <span class="ms-1"> <%= post.likes.length %></span>
-                        </button>
-                    <% } %>
-                </form>
-            </div>
-
-            <a class="ms-auto pe-2"  data-bs-toggle="collapse" href="#post<%= post._id %>">
-                댓글 <%= post.comments.length %>
+            <a class="ms-auto pe-2"  data-bs-toggle="collapse" href="#resell<%= resell._id %>">
+                댓글 <%= resell.comments.length %>
             </a>
         </div>
 
 
         <hr class="mt-1" >
-        <div class="collapse" id="post<%= post._id %>">
-            <% if (post.comments.length > 0) { %>
+        <div class="collapse" id="resell<%= resell._id %>">
+            <% if (resell.comments.length > 0) { %>
                 <div class="card-body comment-section">
-                    <% post.comments.forEach((comment) => { %>
+                    <% resell.comments.forEach((comment) => { %>
                         <div class="d-flex justify-content-between">
                             <div class="font-weight-bold">
                                 <%= comment.author.username %>
@@ -98,9 +83,9 @@
                                     <div class="dropdown-menu">
                                         <a 
                                         class="dropdown-item text-center"
-                                        href="/posts/<%= post._id %>/comments/<%= comment._id %>/edit">Edit</a>
+                                        href="/resells/<%= resell._id %>/comments/<%= comment._id %>/edit">Edit</a>
                                         <form class="dropdown-item text-center"
-                                            action="/posts/<%= post._id %>/comments/<%= comment._id %>?_method=DELETE"
+                                            action="/resells/<%= resell._id %>/comments/<%= comment._id %>?_method=DELETE"
                                             method="POST"
                                             >
                                           <button class="no-outline" type="submit">Delete</button>  
@@ -114,7 +99,7 @@
             <% } %>
         </div>
         <div>
-            <form method="POST" action="/posts/<%= post._id %>/comments">
+            <form method="POST" action="/resells/<%= resell._id %>/comments">
                 <div class="form-group">
                     <input  name="text" id="desc" class="comment-section" placeholder="댓글을 작성해주세요." required>
                     <p class="small ms-2"> 엔터를 눌러주세요.</p>

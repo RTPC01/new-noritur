@@ -1,6 +1,7 @@
 const Post = require('../models/posts.model');
 const Comment = require('../models/comments.model');
 const User = require('../models/users.model');
+const Resell = require('../models/resells.model');
 
 function checkAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
@@ -28,6 +29,31 @@ function checkPostOwnerShip(req, res, next) {
                 // 포스트가 있는데 나의 포스트인지 확인
                 if (post.author.id.equals(req.user._id)) {
                     req.post = post;
+                    next();
+                } else {
+                    req.flash('error', '권한이 없습니다.');
+                    res.redirect('back');
+                }
+            }
+        })
+
+    } else {
+        req.flash('error', '로그인을 먼저 해주세요.');
+        res.redirect('/login');
+    }
+}
+
+function checkResellOwnerShip(req, res, next) {
+    if (req.isAuthenticated()) {
+        // id에 맞는 포스트가 있는 포스트인지 
+        Resell.findById(req.params.id, (err, resell) => {
+            if (err || !resell) {
+                req.flash('error', '포스트가 없거나 에러가 발생했습니다.');
+                res.redirect('back');
+            } else {
+                // 포스트가 있는데 나의 포스트인지 확인
+                if (resell.author.id.equals(req.user._id)) {
+                    req.resell = resell;
                     next();
                 } else {
                     req.flash('error', '권한이 없습니다.');
@@ -92,6 +118,7 @@ module.exports = {
     checkIsMe,
     checkCommentOwnership,
     checkPostOwnerShip,
+    checkResellOwnerShip,
     checkAuthenticated,
     checkNotAuthenticated
 }
